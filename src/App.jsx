@@ -23,6 +23,7 @@ function App() {
     }
     let responseJSON = await response.json();
     setData([...data, responseJSON]);
+    console.log(data);
     getInputValue("");
   }
 
@@ -48,7 +49,11 @@ function App() {
             <PokeCard
               name={capitaliseFirstLetter(item.name)}
               type={capitaliseFirstLetter(item.types[0].type.name)}
-              sprite={item.sprites.front_default}
+              sprite={
+                item.sprites.versions["generation-vi"][
+                  "omegaruby-alphasapphire"
+                ].front_default
+              }
               hp={item.stats[0].base_stat}
               attack={item.stats[1].base_stat}
               defense={item.stats[2].base_stat}
