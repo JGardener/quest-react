@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.pokeCard {
+  margin: 1.5rem;
+  padding: 1.5rem;
+  color: white;
+  width: 300px;
+}
+
+.pokeName {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.pokeCardContent {
+  display: flex;
+  justify-content: space-around;
+}
+
+.statsLeft,
+.pokeSprite,
+.statsRight {
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  justify-content: center;
+  align-items: center;
+}
