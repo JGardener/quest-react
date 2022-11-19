@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { PokeCard } from "./components/PokeCard/PokeCard";
+import names from "./PokemonNames/names.json";
+import { AutoCompleteName } from "./components/AutoCompleteName/AutoCompleteName";
 import "./App.css";
 
 function App() {
   const [inputValue, getInputValue] = useState("");
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
+  const [autoCompleteNames, updateAutoCompleteNames] = useState([]);
 
   const capitaliseFirstLetter = (string) =>
     string.charAt(0).toUpperCase() + string.slice(1);
@@ -23,9 +26,15 @@ function App() {
     }
     let responseJSON = await response.json();
     setData([...data, responseJSON]);
-    console.log(data);
     getInputValue("");
+    updateAutoCompleteNames([]);
+    console.log(autoCompleteNames);
   }
+
+  const filterPokemon = () => {
+    const result = names.filter((element) => element.includes(inputValue));
+    return updateAutoCompleteNames(result.slice(0, 5));
+  };
 
   return (
     <div className="App">
@@ -34,13 +43,31 @@ function App() {
       <input
         type="text"
         value={inputValue}
-        onChange={(event) => getInputValue(event.target.value)}
+        onChange={(event) => {
+          getInputValue(event.target.value);
+          filterPokemon();
+          if (inputValue.length < 2) {
+            updateAutoCompleteNames([]);
+          }
+        }}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
             querySinglePokemon();
           }
         }}
       />
+      <div style={{ width: "270px" }}>
+        {autoCompleteNames.map((item) => {
+          return (
+            <AutoCompleteName
+              name={item}
+              key={item}
+              query={querySinglePokemon}
+              capitalise={capitaliseFirstLetter}
+            />
+          );
+        })}
+      </div>
       <button onClick={querySinglePokemon}>Search</button>
       <p>{error}</p>
       <div className="pokeContainer">
