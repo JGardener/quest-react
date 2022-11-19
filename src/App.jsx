@@ -17,8 +17,8 @@ function App() {
   const capitaliseFirstLetter = (string) =>
     string.charAt(0).toUpperCase() + string.slice(1);
 
-  async function querySinglePokemon() {
-    let query = inputValue.toLowerCase();
+  async function querySinglePokemon(searchName) {
+    let query = searchName.toLowerCase();
     console.log("Query: ", query);
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
     if (!response.ok) {
@@ -50,6 +50,7 @@ function App() {
         value={inputValue}
         onChange={(event) => {
           getInputValue(event.target.value);
+
           filterPokemon();
           if (inputValue.length < 2) {
             updateAutoCompleteNames([]);
@@ -57,7 +58,7 @@ function App() {
         }}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
-            querySinglePokemon();
+            querySinglePokemon(inputValue);
           }
         }}
       />
@@ -68,7 +69,7 @@ function App() {
               name={item}
               key={item}
               query={querySinglePokemon}
-              update={handleChange}
+              update={getInputValue}
               capitalise={capitaliseFirstLetter}
               value={inputValue}
             />

@@ -4,7 +4,7 @@ export const AutoCompleteName = (props) => (
     className={styles.text}
     onClick={() => {
       props.update(props.capitalise(props.name));
-      props.query();
+      props.query(props.name);
     }}
   >
     {props.capitalise(props.name)}
