@@ -10,11 +10,16 @@ function App() {
   const [error, setError] = useState("");
   const [autoCompleteNames, updateAutoCompleteNames] = useState([]);
 
+  const handleChange = (something) => {
+    getInputValue(something);
+  };
+
   const capitaliseFirstLetter = (string) =>
     string.charAt(0).toUpperCase() + string.slice(1);
 
   async function querySinglePokemon() {
     let query = inputValue.toLowerCase();
+    console.log("Query: ", query);
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
     if (!response.ok) {
       setError("Pokémon not found. Please check your spelling and try again.");
@@ -63,7 +68,9 @@ function App() {
               name={item}
               key={item}
               query={querySinglePokemon}
+              update={handleChange}
               capitalise={capitaliseFirstLetter}
+              value={inputValue}
             />
           );
         })}
